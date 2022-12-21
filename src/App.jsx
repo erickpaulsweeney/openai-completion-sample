@@ -4,7 +4,6 @@ export default function App() {
   const [response, setResponse] = useState(null);
   const [title, setTitle] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const API_KEY = "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";
 
   const generatePost = async (ev) => {
     ev.preventDefault();
@@ -19,11 +18,13 @@ export default function App() {
       presence_penalty: 0,
     };
 
+    // console.log(process.env)
+
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + String(API_KEY),
+        Authorization: "Bearer " + String(process.env.REACT_APP_API_KEY),
       },
       body: JSON.stringify(params),
     };
@@ -33,7 +34,7 @@ export default function App() {
       requestOptions
     );
     const data = await response.json();
-    
+    console.log(data);
     setResponse(data.choices[0].text);
   };
 
@@ -48,7 +49,7 @@ export default function App() {
   }, [title]);
 
   return (
-    <div className="container">
+    <div className="container-sm">
       <h2 className="display-4 text-center py-4">OpenAI Completion Sample</h2>
 
       <p className="h6 text-center">
